@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-ink: #0b0a10;
+  --color-ink-2: #121019;
+  --color-ink-3: #1b1824;
+  --color-paper: #f3ede4;
+  --color-mute: #a7a0b2;
+  --color-dim: #6f687a;
+  --color-ember: #f16136;
+  --color-ember-2: #ff8f63;
+  --color-sky: #27aee4;
+  --color-sky-2: #7fd3f5;
+  --color-line: rgb(255 255 255 / 0.09);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: auto !important;
+    background: var(--color-ink);
+    color-scheme: dark;
+  }
+  body {
+    /* transparent so the fixed -z WebGL backdrop shows; html carries the ink */
+    background: transparent;
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-ember); color: #fff; }
+  :focus-visible { outline: 2px solid var(--color-sky); outline-offset: 3px; border-radius: 6px; }
+  button, a { cursor: pointer; }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10; }
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-ember;
+  }
+  .eyebrow::before { content: ""; @apply h-px w-8 bg-ember; }
+  .glass {
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(255 255 255 / 0.02));
+    border: 1px solid var(--color-line);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+  .btn, .btn-primary, .btn-ghost {
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 text-sm font-semibold tracking-wide transition-all duration-300;
+  }
+  .btn-primary { @apply bg-ember text-white shadow-[0_10px_40px_-10px_rgba(241,97,54,0.7)] hover:bg-ember-2 hover:shadow-[0_14px_50px_-8px_rgba(241,97,54,0.85)]; }
+  .btn-ghost { @apply border border-white/15 text-paper hover:border-white/40 hover:bg-white/5; }
+  .text-gradient {
+    background: linear-gradient(100deg, var(--color-ember) 0%, var(--color-ember-2) 35%, var(--color-sky) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .grain::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.06; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .marquee-track { animation: marquee 38s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+}
+
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

@@ -1,0 +1,18 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* `clip` (not `hidden`) so body/#root don't become scroll containers,
+   which would break position: sticky. */
+html { overflow-x: hidden; position: relative; }
+body, #root { overflow-x: clip; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0b0a10; }
+::-webkit-scrollbar-thumb { background: #f16136; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #ff8f63; }
+
+img { -webkit-user-drag: none; user-select: none; }
